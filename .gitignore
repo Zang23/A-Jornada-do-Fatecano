@@ -1,0 +1,29 @@
+# Compiled class files
+*.class
+
+# Package Files
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Log files
+*.log
+logs/
+
+# IDE files and directories
+.idea/             # IntelliJ IDEA
+.vscode/           # VS Code
+*.iml              # IntelliJ IDEA module files
+.project           # Eclipse project files
+.classpath         # Eclipse classpath files
+.settings/         # Eclipse settings directory
+
+# Build artifacts
+target/            # Maven build directory
+build/             # Gradle build directory
+out/               # IntelliJ IDEA output directory
+bin/               # Default
+dir/               # Default
