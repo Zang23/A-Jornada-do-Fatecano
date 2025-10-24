@@ -27,3 +27,4 @@ build/             # Gradle build directory
 out/               # IntelliJ IDEA output directory
 bin/               # Default
 dir/               # Default
+/bin/
