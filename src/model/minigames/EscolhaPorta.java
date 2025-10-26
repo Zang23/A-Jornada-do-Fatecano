@@ -18,8 +18,8 @@ public class EscolhaPorta extends Jogo {
 	
 	public EscolhaPorta(Dificuldade dificuldade) {
 		super("EscolhaPorta", dificuldade, EstruturaDados.LISTA,
-		"Descricao do Jogo",
-		"Instrucoes do Jogo");
+		"Combine as cores da fila com a porta correta",
+		"A fila sai conforme o jogador faz acertos... Ou erros");
 	}
 
 	@Override
