@@ -20,6 +20,7 @@ public class FUsuario extends PropTela{
      */
     public FUsuario() {
         initComponents();
+        Placeholder.setPlaceholder("Insira o nome do seu herói!", CampoNome);
 
     }
 
@@ -37,7 +38,7 @@ public class FUsuario extends PropTela{
         jLabel1 = new javax.swing.JLabel();
         jLabelIcon = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        CampoNome = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -58,10 +59,14 @@ public class FUsuario extends PropTela{
         jLabel2.setText(" \\/");
         jLabel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(238, 150, 75), 3, true));
 
-        jTextField1.setBackground(new java.awt.Color(25, 26, 31));
-        jTextField1.setForeground(new java.awt.Color(252, 252, 252));
-        jTextField1.setText("Insira o nome do seu herói!");
-        jTextField1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(238, 150, 75), 3, true));
+        CampoNome.setBackground(new java.awt.Color(25, 26, 31));
+        CampoNome.setForeground(new java.awt.Color(252, 252, 252));
+        CampoNome.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(238, 150, 75), 3, true));
+        CampoNome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CampoNomeActionPerformed(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(73, 73, 73));
         jButton1.setForeground(new java.awt.Color(238, 150, 75));
@@ -87,7 +92,7 @@ public class FUsuario extends PropTela{
                             .addComponent(jLabelIcon, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(23, 23, 23)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(CampoNome, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(42, Short.MAX_VALUE))
@@ -104,9 +109,9 @@ public class FUsuario extends PropTela{
                         .addGap(27, 27, 27)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                            .addComponent(jTextField1))))
+                            .addComponent(CampoNome))))
                 .addComponent(jLabel2)
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -146,6 +151,10 @@ public class FUsuario extends PropTela{
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void CampoNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CampoNomeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CampoNomeActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -179,19 +188,18 @@ public class FUsuario extends PropTela{
             public void run() {
                 FUsuario tela = new FUsuario();
                 tela.SetDefautProperties(tela);
-                
                 tela.setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField CampoNome;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelIcon;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

@@ -3,9 +3,12 @@ package model.minigames;
 import model.EstruturaDados;
 import model.Jogo;
 import model.Dificuldade;
+import model.No;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 import javax.swing.*;
 
