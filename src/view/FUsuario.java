@@ -4,10 +4,12 @@
  */
 package view;
 
+import controller.PlayerIconController;
 import model.PropTela;
 import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
+
 
 /**
  *
@@ -20,8 +22,10 @@ public class FUsuario extends PropTela{
      */
     public FUsuario() {
         initComponents();
+        PlayerIconController IconController = new PlayerIconController();
+        IconController.SetIconButtonProperties(jLabelIcon, jLabelSelect);
         Placeholder.setPlaceholder("Insira o nome do seu herói!", CampoNome);
-
+        
     }
 
     /**
@@ -37,7 +41,7 @@ public class FUsuario extends PropTela{
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabelIcon = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jLabelSelect = new javax.swing.JLabel();
         CampoNome = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
 
@@ -53,11 +57,12 @@ public class FUsuario extends PropTela{
         jLabelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/assets/sprites/characters/Fatecando-F_HAPPY-icon.png"))); // NOI18N
         jLabelIcon.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(238, 150, 75), 3, true));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(238, 150, 75));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText(" \\/");
-        jLabel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(238, 150, 75), 3, true));
+        jLabelSelect.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelSelect.setForeground(new java.awt.Color(238, 150, 75));
+        jLabelSelect.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelSelect.setText(" \\/");
+        jLabelSelect.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(238, 150, 75), 3, true));
+        jLabelSelect.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         CampoNome.setBackground(new java.awt.Color(25, 26, 31));
         CampoNome.setForeground(new java.awt.Color(252, 252, 252));
@@ -84,23 +89,23 @@ public class FUsuario extends PropTela{
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(93, Short.MAX_VALUE)
+                .addContainerGap(67, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabelIcon, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabelSelect, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(23, 23, 23)
                         .addComponent(CampoNome, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addContainerGap(35, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(50, 50, 50)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,8 +115,8 @@ public class FUsuario extends PropTela{
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
                             .addComponent(CampoNome))))
-                .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabelSelect)
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -197,8 +202,8 @@ public class FUsuario extends PropTela{
     private javax.swing.JTextField CampoNome;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelIcon;
+    private javax.swing.JLabel jLabelSelect;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
