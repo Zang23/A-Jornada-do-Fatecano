@@ -7,6 +7,7 @@ import model.Dificuldade;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.util.Random;
+import javax.swing.*;
 
 public class EscolhaPorta extends Jogo {
 
@@ -15,6 +16,8 @@ public class EscolhaPorta extends Jogo {
     private int tamanhoCores;
     private int tamanhoPorta;
     private int[] portas;
+	private static Timer tempo;
+    private static int tempoRestante;
 	
 	public EscolhaPorta(Dificuldade dificuldade) {
 		super("EscolhaPorta", dificuldade, EstruturaDados.LISTA,
@@ -135,14 +138,17 @@ public class EscolhaPorta extends Jogo {
 		
 			case FACIL: tamanhoPorta = 3;
 						tamanhoCores = 20;
+						tempoRestante = 120;
 			break;
 			
 			case MEDIO: tamanhoPorta = 4;
 						tamanhoCores = 30;
+						tempoRestante = 90;
 			break;
 			
 			case DIFICIL: tamanhoPorta = 5;
 						  tamanhoCores = 40;
+						  tempoRestante = 60;
 			break;
 			
 		}
@@ -196,12 +202,18 @@ public class EscolhaPorta extends Jogo {
 		switch (dificuldade) {
 		
 			case FACIL: pontuacao *= 1;
+						tempoRestante *= 50;
+						pontuacao += tempoRestante;
 			break;
 		
 			case MEDIO: pontuacao *= 1.25;
+						tempoRestante *= 100;
+						pontuacao += tempoRestante;
 			break;
 		
 			case DIFICIL: pontuacao *= 1.5;
+						  tempoRestante *= 150;
+						  pontuacao += tempoRestante;
 			break;
 			
 		}
@@ -217,6 +229,30 @@ public class EscolhaPorta extends Jogo {
 		} else {
 			cliqueErrado();
 		}
+	}
+
+	public void tempo(ActionEvent e) { // Tempo de jogo
+		
+		tempo = new Timer(1000, new ActionListener() {
+			
+		@Override
+	    public void actionPerformed(ActionEvent e) {
+	    
+			tempoRestante--;
+			
+			if (tempoRestante <= 0) {
+				
+				tempo.stop();
+				System.out.println("Game Over");
+				
+			}
+			
+		}
+		
+		});
+		
+		tempo.start();
+			
 	}
 	
 }
