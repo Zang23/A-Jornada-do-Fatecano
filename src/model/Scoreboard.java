@@ -29,6 +29,7 @@ public class Scoreboard {
 	// Torre de Hanoi:
 	// Joazinho maconheiro 10 pontos
 	// Aninha Safadinha 20 pontos
+	
 	public List<RegistroPontuacao> getRegistrosJogo(Jogo jogo) {
 		List<RegistroPontuacao> resultado = new ArrayList<>();
 		for (RegistroPontuacao registro : registros) {

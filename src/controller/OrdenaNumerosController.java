@@ -31,4 +31,22 @@ public class OrdenaNumerosController {
     public OrdenaNumeros getJogo() {
         return jogo;
     }
+    
+    
+
+	public void retornaSelectJogo() {
+
+		NameController nome = new NameController();
+		FSelectJogos telaSelect = new FSelectJogos(nome.getName());
+		TelaOrdenaNumeros tela = new TelaOrdenaNumeros();
+		
+		tela.setVisible(false);
+		
+		telaSelect.SetDefautProperties(telaSelect);
+		telaSelect.setVisible(true);
+		
+	}
+    
+    
+    
 }

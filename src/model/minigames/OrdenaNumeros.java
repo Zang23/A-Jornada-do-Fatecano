@@ -4,10 +4,15 @@ import model.EstruturaDados;
 import model.Jogo;
 import model.Dificuldade;
 
+import controller.GameTimer;
+
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+
+
 
 public class OrdenaNumeros extends Jogo {
 
@@ -15,7 +20,8 @@ public class OrdenaNumeros extends Jogo {
     private List<Integer> numerosCorretos; // lista ordenada (resposta correta)
     private int posicaoAtual;
     private Integer numeroSegurado;
-
+    private GameTimer timer;
+    
     public OrdenaNumeros(Dificuldade dificuldade) {
         super("OrdenaNumeros", dificuldade, EstruturaDados.LISTA, 
               "Jogo de Ordenação de Números", 
@@ -25,7 +31,8 @@ public class OrdenaNumeros extends Jogo {
         numerosCorretos = new ArrayList<>();
         posicaoAtual = 0;
         numeroSegurado = null;
-
+        timer = new GameTimer();
+        
         gerarNumeros();
     }
 
@@ -63,7 +70,16 @@ public class OrdenaNumeros extends Jogo {
     public void iniciar() {
         System.out.println("=== Ordene os números em ordem crescente ===");
         System.out.println("Use as setas para mover e a tecla espaço para pegar/soltar o número.");
+        timer.iniciar();
         exibirNumeros();
+    }
+    
+    public double getTempoDecorrido() {
+        return timer.getTime();
+    }
+
+    public void resetarTimer() {
+        timer.iniciar();
     }
 
     public void exibirNumeros() {
@@ -87,10 +103,26 @@ public class OrdenaNumeros extends Jogo {
         int acertos = 0;
         for (int i = 0; i < numeros.size(); i++) {
             if (numeros.get(i).equals(numerosCorretos.get(i))) {
-                acertos++;
+                acertos += 10;
             }
         }
-        return acertos * 10;
+        
+        if(estaOrdenado()) {
+        	double tempo = getTempoDecorrido();
+        	
+        	int resultado = (int ) (tempo * acertos);
+        	
+        	if(dificuldade.equals(Dificuldade.FACIL)) {
+        		resultado *= 1.02;
+        	}else if(dificuldade.equals(Dificuldade.MEDIO)) {
+        		resultado *= 1.05;
+        	}else if(dificuldade.equals(Dificuldade.DIFICIL)) {
+        		resultado *= 1.1;
+        	}
+        	return resultado;
+        }
+        
+        return acertos;
     }
 
     @Override
@@ -148,4 +180,5 @@ public class OrdenaNumeros extends Jogo {
     public void setPosicaoAtual(int posicaoAtual) { this.posicaoAtual = posicaoAtual; }
     public Integer getNumeroSegurado() { return numeroSegurado; }
     public void setNumeroSegurado(Integer numeroSegurado) { this.numeroSegurado = numeroSegurado; }
+
 }
