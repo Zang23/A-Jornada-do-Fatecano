@@ -30,11 +30,13 @@ public class OrdenaNumeros extends Jogo {
     }
 
     private void gerarNumeros() {
-        int quantidade = switch (dificuldade) {
-            case FACIL -> 5;
-            case MEDIO -> 8;
-            case DIFICIL -> 12;
-            default -> 5;
+        int quantidade = 0;
+        
+        switch (dificuldade) {
+            case FACIL: quantidade = 5;
+            case MEDIO: quantidade = 8;
+            case DIFICIL: quantidade = 12;
+            default: quantidade = 5;
         };
 
         Random random = new Random();

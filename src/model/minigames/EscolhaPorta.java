@@ -105,11 +105,11 @@ public class EscolhaPorta extends Jogo {
     	
     	switch (dificuldade) {
         
-    	case FACIL -> pontuacao += 10;
+    	case FACIL: pontuacao += 10;
         
-    	case MEDIO -> pontuacao += 15;
+    	case MEDIO: pontuacao += 15;
         
-    	case DIFICIL -> pontuacao += 20;
+    	case DIFICIL: pontuacao += 20;
     	
      }
     	proximaFila();
