@@ -26,7 +26,7 @@ public class FSelectJogos extends PropTela {
         for(int i = 0; i < 5; i++){
             SelectController.AddOption(JogosSelect[i], jLabelTitle, i);
         }
-        SelectController.AddSelect(jButtonGo, jSelectDif, this);
+        SelectController.AddSelect(jButtonGo);
         PlayerIconController IconController = new PlayerIconController();
         IconController.setIcon(jLabelIcon);
     }
@@ -51,7 +51,6 @@ public class FSelectJogos extends PropTela {
         jPanel4 = new javax.swing.JPanel();
         jLabelIcon = new javax.swing.JLabel();
         LabelNome = new javax.swing.JLabel();
-        jSelectDif = new javax.swing.JComboBox<>();
         jPanel5 = new javax.swing.JPanel();
         jPanelGame1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -131,12 +130,7 @@ public class FSelectJogos extends PropTela {
         jLabelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/assets/sprites/characters/Fatecando-F_HAPPY-icon.png"))); // NOI18N
 
         LabelNome.setForeground(new java.awt.Color(252, 252, 252));
-
-        jSelectDif.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jSelectDifActionPerformed(evt);
-            }
-        });
+        LabelNome.setText("Nome do herói");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -147,9 +141,7 @@ public class FSelectJogos extends PropTela {
                 .addComponent(jLabelIcon)
                 .addGap(30, 30, 30)
                 .addComponent(LabelNome)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jSelectDif, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(71, 71, 71))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,14 +150,9 @@ public class FSelectJogos extends PropTela {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabelIcon))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jSelectDif, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(30, 30, 30)
-                                .addComponent(LabelNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(LabelNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(30, 30, 30)))
                 .addContainerGap())
         );
@@ -295,7 +282,7 @@ public class FSelectJogos extends PropTela {
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonGo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(15, 15, 15))
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 802, Short.MAX_VALUE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 794, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -348,10 +335,6 @@ public class FSelectJogos extends PropTela {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonGoActionPerformed
 
-    private void jSelectDifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSelectDifActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jSelectDifActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -378,7 +361,6 @@ public class FSelectJogos extends PropTela {
     private javax.swing.JPanel jPanelGame3;
     private javax.swing.JPanel jPanelGame4;
     private javax.swing.JPanel jPanelGame5;
-    private javax.swing.JComboBox<String> jSelectDif;
     private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
 }

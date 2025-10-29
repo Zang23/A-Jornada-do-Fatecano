@@ -5,11 +5,9 @@
 package controller;
 
 import java.awt.event.MouseAdapter;
-import view.FSelectJogos;
 import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import view.TelaOrdenaNumeros;
 import view.TelaCacaPalavra;
@@ -34,40 +32,34 @@ public class SelectGameController {
         });
     }
 
-    public void AddSelect(JButton SelectOption, JComboBox CompDif, FSelectJogos telaSelect) {
+    public void AddSelect(JButton SelectOption) {
         SelectOption.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 switch (selected) {
                     case 0: {
-                    	
                         TelaCacaPalavra jogo = new TelaCacaPalavra();
-                        FMinigameHolder tela = new FMinigameHolder(jogo, 180);
+                        FMinigameHolder tela = new FMinigameHolder(jogo);
                         tela.setVisible(true);
-                        telaSelect.setVisible(false);
                         break;
                     }
                     case 1: {
-                    	telaSelect.setVisible(false);
+                        
                         break;
                     }
                     case 2: {
                         TelaOrdenaNumeros jogo = new TelaOrdenaNumeros();
-                        FMinigameHolder tela = new FMinigameHolder(jogo, 180);
+                        FMinigameHolder tela = new FMinigameHolder(jogo);
                         tela.setVisible(true);
-                        telaSelect.setVisible(false);
                         break;
                     }
                     case 3: {
-                    	telaSelect.setVisible(false);
                         break;
                     }
                     case 4: {
-                    	telaSelect.setVisible(false);
                         break;
                     }
                     default: {
-                    	telaSelect.setVisible(false);
                         break;
                     }
                 }
