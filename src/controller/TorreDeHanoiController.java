@@ -12,6 +12,8 @@ public class TorreDeHanoiController {
     private TorreDeHanoi jogo;         //Referência para o model (a lógica do jogo)
     private Timer cronometro;          //Timer que controla o tempo
     private int segundosRestantes;     //Tempo que ainda falta
+    
+    private TorreDeHanoiListener listener;
 
     private EstadoJogo estadoAtual;    //Estado do jogo (jogando, vitória ou derrota)
     public enum EstadoJogo { JOGANDO, VITORIA, DERROTA }
@@ -21,6 +23,11 @@ public class TorreDeHanoiController {
     public TorreDeHanoiController(TorreDeHanoi jogo) {
         this.jogo = jogo;
         iniciarLogicaDoJogo(); //Começa o jogo
+    }
+    
+    // Adicionei o listener baseado na interface TorreDeHanoiListener @GabrielGit10110
+    public void setListener(TorreDeHanoiListener listener) {
+        this.listener = listener;
     }
 
     //Inicia o timer e o estado do jogo
@@ -59,6 +66,7 @@ public class TorreDeHanoiController {
             }
         } else {
             jogo.moverDisco(torreEscolhida, torreAlvo);
+            if (listener != null) listener.atualizarTela();
             torreEscolhida = null; //Deseleciona depois de mover
         }
     }
@@ -72,13 +80,10 @@ public class TorreDeHanoiController {
             jogo.calcularPontuacao(0, segundosRestantes);
             this.estadoAtual = EstadoJogo.VITORIA;
         } else {
-            javax.swing.JOptionPane.showMessageDialog(
-                null,
-                "Ainda não está certo, continue tentando!",
-                "Ops!",
-                javax.swing.JOptionPane.INFORMATION_MESSAGE
-            );
+            if (listener != null) listener.mostrarMensagem("Ainda não está certo, continue tentando!");
         }
+        
+        if (listener != null) listener.jogoEncerrado(estadoAtual);
     }
 
     //Reinicia completamente o jogo
