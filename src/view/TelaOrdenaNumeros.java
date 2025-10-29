@@ -4,8 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
-
-import controller.NameController;
 import controller.OrdenaNumerosController;
 import model.minigames.OrdenaNumeros;
 import model.Dificuldade;
@@ -22,13 +20,10 @@ public class TelaOrdenaNumeros extends JPanel {
     public TelaOrdenaNumeros() {
         setLayout(new BorderLayout());
 
-        
         // Inicializa o jogo e o controller
-        jogo = new OrdenaNumeros(Dificuldade.MEDIO);
+        jogo = new OrdenaNumeros(Dificuldade.FACIL);
         controller = new OrdenaNumerosController(jogo);
-        
-        
-        
+
         // Painel principal
         pnNumeros = new JPanel();
         pnNumeros.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 30));
@@ -36,7 +31,7 @@ public class TelaOrdenaNumeros extends JPanel {
         add(pnNumeros, BorderLayout.CENTER);
 
         // Ponteiro visual
-        lblPonteiro = new JLabel("");
+        lblPonteiro = new JLabel("â¬†");
         lblPonteiro.setHorizontalAlignment(SwingConstants.CENTER);
         lblPonteiro.setFont(new Font("SansSerif", Font.BOLD, 24));
         add(lblPonteiro, BorderLayout.SOUTH);
@@ -62,38 +57,8 @@ public class TelaOrdenaNumeros extends JPanel {
                 atualizarTela();
 
                 if (jogo.estaOrdenado()) {
-                    JOptionPane pane = new JOptionPane(
-                        "Você ordenou todos os números! Pressione ENTER para voltar à seleção.",
-                        JOptionPane.INFORMATION_MESSAGE,
-                        JOptionPane.DEFAULT_OPTION
-                    );
-
-                    JDialog dialog = pane.createDialog(null, "Mensagem");
-
-                    JRootPane rootPane = dialog.getRootPane();
-                    rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                            .put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "ENTER_pressed");
-
-                    rootPane.getActionMap().put("ENTER_pressed", new AbstractAction() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            System.out.println("Enter pressionado!");
-                            controller.retornaSelectJogo();
-
-                            // Fecha o diálogo
-                            dialog.dispose();
-
-                            // Fecha a janela que contém esta tela
-                            Window janelaAtual = SwingUtilities.getWindowAncestor(TelaOrdenaNumeros.this);
-                            if (janelaAtual != null) {
-                                janelaAtual.dispose();
-                            }
-                        }
-                    });
-
-                    dialog.setVisible(true);
+                    JOptionPane.showMessageDialog(null, "âœ… ParabÃ©ns! VocÃª ordenou todos os nÃºmeros!");
                 }
-
             }
         });
 

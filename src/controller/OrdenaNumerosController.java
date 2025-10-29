@@ -1,11 +1,6 @@
 package controller;
 
-import javax.swing.JFrame;
-
 import model.minigames.OrdenaNumeros;
-import view.FSelectJogos;
-import view.TelaOrdenaNumeros;
-
 
 public class OrdenaNumerosController {
     private OrdenaNumeros jogo;
@@ -36,6 +31,8 @@ public class OrdenaNumerosController {
     public OrdenaNumeros getJogo() {
         return jogo;
     }
+    
+    
 
 	public void retornaSelectJogo() {
 
