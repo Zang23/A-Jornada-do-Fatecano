@@ -24,7 +24,7 @@ public class TelaOrdenaNumeros extends JPanel {
 
         
         // Inicializa o jogo e o controller
-        jogo = new OrdenaNumeros(Dificuldade.MEDIO);
+        jogo = new OrdenaNumeros(Dificuldade.FACIL);
         controller = new OrdenaNumerosController(jogo);
         
         
