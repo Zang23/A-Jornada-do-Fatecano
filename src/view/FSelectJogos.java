@@ -26,7 +26,7 @@ public class FSelectJogos extends PropTela {
         for(int i = 0; i < 5; i++){
             SelectController.AddOption(JogosSelect[i], jLabelTitle, i);
         }
-        SelectController.AddSelect(jButtonGo);
+        SelectController.AddSelect(jButtonGo, this);
         PlayerIconController IconController = new PlayerIconController();
         IconController.setIcon(jLabelIcon);
     }
@@ -132,12 +132,6 @@ public class FSelectJogos extends PropTela {
         LabelNome.setForeground(new java.awt.Color(252, 252, 252));
         LabelNome.setText("Nome do herói");
 
-        jSelectDif.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Facil", "MÃ©dio", "Dificil" }));
-        jSelectDif.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jSelectDifActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);

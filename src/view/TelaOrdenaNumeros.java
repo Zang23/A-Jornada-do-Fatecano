@@ -57,7 +57,37 @@ public class TelaOrdenaNumeros extends JPanel {
                 atualizarTela();
 
                 if (jogo.estaOrdenado()) {
-                    JOptionPane.showMessageDialog(null, "âœ… ParabÃ©ns! VocÃª ordenou todos os nÃºmeros!");
+                	JOptionPane.showMessageDialog(null, "Parabéns! Você ordenou todos os números!");
+                    JOptionPane pane = new JOptionPane(
+                        "Você ordenou todos os números! Pressione ENTER para voltar à seleção.",
+                        JOptionPane.INFORMATION_MESSAGE,
+                        JOptionPane.DEFAULT_OPTION
+                    );
+
+                    JDialog dialog = pane.createDialog(null, "Mensagem");
+
+                    JRootPane rootPane = dialog.getRootPane();
+                    rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                            .put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "ENTER_pressed");
+
+                    rootPane.getActionMap().put("ENTER_pressed", new AbstractAction() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            System.out.println("Enter pressionado!");
+                            controller.retornaSelectJogo();
+
+                            // Fecha o diálogo
+                            dialog.dispose();
+
+                            // Fecha a janela que contém esta tela
+                            Window janelaAtual = SwingUtilities.getWindowAncestor(TelaOrdenaNumeros.this);
+                            if (janelaAtual != null) {
+                                janelaAtual.dispose();
+                            }
+                        }
+                    });
+
+                    dialog.setVisible(true);
                 }
             }
         });

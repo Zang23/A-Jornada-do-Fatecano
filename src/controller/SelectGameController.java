@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import view.TelaOrdenaNumeros;
 import view.TelaCacaPalavra;
 import view.FMinigameHolder;
+import view.FSelectJogos;
 
 /**
  *
@@ -32,7 +33,7 @@ public class SelectGameController {
         });
     }
 
-    public void AddSelect(JButton SelectOption) {
+    public void AddSelect(JButton SelectOption, FSelectJogos telaSelect) {
         SelectOption.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -41,25 +42,30 @@ public class SelectGameController {
                         TelaCacaPalavra jogo = new TelaCacaPalavra();
                         FMinigameHolder tela = new FMinigameHolder(jogo);
                         tela.setVisible(true);
+                        telaSelect.setVisible(false);
                         break;
                     }
                     case 1: {
-                        
+                    	telaSelect.setVisible(false);	
                         break;
                     }
                     case 2: {
                         TelaOrdenaNumeros jogo = new TelaOrdenaNumeros();
                         FMinigameHolder tela = new FMinigameHolder(jogo);
                         tela.setVisible(true);
+                        telaSelect.setVisible(false);
                         break;
                     }
                     case 3: {
+                    	telaSelect.setVisible(false);
                         break;
                     }
                     case 4: {
+                    	telaSelect.setVisible(false);
                         break;
                     }
                     default: {
+                    	telaSelect.setVisible(false);
                         break;
                     }
                 }

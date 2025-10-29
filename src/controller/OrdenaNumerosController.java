@@ -1,6 +1,8 @@
 package controller;
 
 import model.minigames.OrdenaNumeros;
+import view.FSelectJogos;
+import view.TelaOrdenaNumeros;
 
 public class OrdenaNumerosController {
     private OrdenaNumeros jogo;
