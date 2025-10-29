@@ -26,7 +26,7 @@ public class FSelectJogos extends PropTela {
         for(int i = 0; i < 5; i++){
             SelectController.AddOption(JogosSelect[i], jLabelTitle, i);
         }
-        SelectController.AddSelect(jButtonGo, jSelectDif);
+        SelectController.AddSelect(jButtonGo, this, jSelectDif);
         PlayerIconController IconController = new PlayerIconController();
         IconController.setIcon(jLabelIcon);
     }
