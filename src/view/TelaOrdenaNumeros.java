@@ -8,7 +8,7 @@ import controller.OrdenaNumerosController;
 import model.minigames.OrdenaNumeros;
 import model.Dificuldade;
 
-public class TelaOrdenaNumeros extends JFrame {
+public class TelaOrdenaNumeros extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
@@ -18,11 +18,6 @@ public class TelaOrdenaNumeros extends JFrame {
     private OrdenaNumerosController controller;
 
     public TelaOrdenaNumeros() {
-        setTitle("Ordena Números");
-        setSize(600, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setResizable(false);
         setLayout(new BorderLayout());
 
         // Inicializa o jogo e o controller
@@ -63,7 +58,6 @@ public class TelaOrdenaNumeros extends JFrame {
 
                 if (jogo.estaOrdenado()) {
                     JOptionPane.showMessageDialog(null, "✅ Parabéns! Você ordenou todos os números!");
-                    dispose();
                 }
             }
         });
@@ -92,17 +86,7 @@ public class TelaOrdenaNumeros extends JFrame {
             pnNumeros.add(lbl);
         }
 
-        if (jogo.getNumeroSegurado() != null) {
-            setTitle("Segurando: " + jogo.getNumeroSegurado());
-        } else {
-            setTitle("Ordena Números");
-        }
-
         pnNumeros.revalidate();
         pnNumeros.repaint();
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(TelaOrdenaNumeros::new);
     }
 }

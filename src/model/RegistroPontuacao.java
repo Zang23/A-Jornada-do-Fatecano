@@ -22,4 +22,8 @@ public class RegistroPontuacao {
 	public int getPontuacao() {
 		return pontuacao;
 	}
+        @Override
+        public String toString(){
+            return usuario.getNome() + "; " + jogo.getNome() + "; " + pontuacao + ";";
+        }
 }

@@ -5,11 +5,9 @@
 package view;
 
 import controller.PlayerIconController;
+import controller.NameController;
+import controller.CreateFileProperties;
 import model.PropTela;
-import java.awt.Font;
-import java.io.File;
-import java.io.IOException;
-
 
 /**
  *
@@ -19,10 +17,13 @@ public class FUsuario extends PropTela{
 
     /**
      * Creates new form FUsuarioTeste
-     */
+     */  
     public FUsuario() {
         initComponents();
-        PlayerIconController IconController = new PlayerIconController();
+        CreateFileProperties CreateFProp = new CreateFileProperties();
+        CreateFProp.create();
+        PlayerIconController IconController = new PlayerIconController();              
+        IconController.setIcon(jLabelIcon);
         IconController.SetIconButtonProperties(jLabelIcon, jLabelSelect);
         Placeholder.setPlaceholder("Insira o nome do seu herói!", CampoNome);
         
@@ -43,7 +44,7 @@ public class FUsuario extends PropTela{
         jLabelIcon = new javax.swing.JLabel();
         jLabelSelect = new javax.swing.JLabel();
         CampoNome = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jButtonGo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -73,14 +74,14 @@ public class FUsuario extends PropTela{
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(73, 73, 73));
-        jButton1.setForeground(new java.awt.Color(238, 150, 75));
-        jButton1.setText("GO!!!");
-        jButton1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(238, 150, 75), 3, true));
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonGo.setBackground(new java.awt.Color(73, 73, 73));
+        jButtonGo.setForeground(new java.awt.Color(238, 150, 75));
+        jButtonGo.setText("GO!!!");
+        jButtonGo.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(238, 150, 75), 3, true));
+        jButtonGo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonGo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonGoActionPerformed(evt);
             }
         });
 
@@ -99,7 +100,7 @@ public class FUsuario extends PropTela{
                         .addGap(23, 23, 23)
                         .addComponent(CampoNome, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButtonGo, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(68, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -113,7 +114,7 @@ public class FUsuario extends PropTela{
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                            .addComponent(jButtonGo, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
                             .addComponent(CampoNome))))
                 .addComponent(jLabelSelect)
                 .addContainerGap(35, Short.MAX_VALUE))
@@ -152,9 +153,19 @@ public class FUsuario extends PropTela{
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jButtonGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGoActionPerformed
+        NameController ControleNome = new NameController();
+        String NomeHeroi = CampoNome.getText();
+        System.out.println(NomeHeroi);
+        if(NomeHeroi.equals("Insira o nome do seu herói!")){
+            NomeHeroi = "Hero";
+        }
+        ControleNome.setName(NomeHeroi);
+        FSelectJogos TSelect = new FSelectJogos(NomeHeroi);
+        TSelect.SetDefautProperties(TSelect);
+        TSelect.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButtonGoActionPerformed
 
     private void CampoNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CampoNomeActionPerformed
         // TODO add your handling code here:
@@ -200,7 +211,7 @@ public class FUsuario extends PropTela{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField CampoNome;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonGo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelIcon;
     private javax.swing.JLabel jLabelSelect;

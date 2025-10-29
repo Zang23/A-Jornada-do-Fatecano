@@ -3,6 +3,7 @@ package controller;
 import model.minigames.CacaPalavra;
 
 public class CacaPalavraController {
+    
     private CacaPalavra jogo;
 
     public CacaPalavraController(CacaPalavra jogo) {
@@ -20,11 +21,18 @@ public class CacaPalavraController {
     public void acaoEspaco() {
         if (jogo.getLetraSegurada() == null)
             jogo.puxarLetra();
-        else
+        else{
             jogo.inserirLetra();
+            if(jogo.isRespostaCerta()){
+                
+            }
+        }
     }
 
     public CacaPalavra getJogo() {
         return jogo;
+    }
+    public boolean getIsCorrect() {
+        return jogo.isRespostaCerta();
     }
 }

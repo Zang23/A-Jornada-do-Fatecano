@@ -8,7 +8,7 @@ import controller.CacaPalavraController;
 import model.minigames.CacaPalavra;
 import model.Dificuldade;
 
-public class TelaCacaPalavra extends JFrame {
+public class TelaCacaPalavra extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
@@ -22,11 +22,7 @@ public class TelaCacaPalavra extends JFrame {
 
     public TelaCacaPalavra() {
         // Configurações da janela
-        setTitle("Caça Palavras");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(640, 480);
-        setLocationRelativeTo(null);
-
         // Cria o jogo (model) e o controller
         jogo = new CacaPalavra(Dificuldade.FACIL); // ou DIFICIL, se quiser testar
         controller = new CacaPalavraController(jogo);
@@ -104,13 +100,5 @@ public class TelaCacaPalavra extends JFrame {
 
         pnLetras.revalidate();
         pnLetras.repaint();
-    }
-
-    // Método principal para testar a tela separadamente
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            TelaCacaPalavra tela = new TelaCacaPalavra();
-            tela.setVisible(true);
-        });
     }
 }
