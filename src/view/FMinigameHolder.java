@@ -15,9 +15,11 @@ public class FMinigameHolder extends javax.swing.JFrame {
     /**
      * Creates new form FMinigameHolder
      */
-    public FMinigameHolder(JPanel painelMinigame) {
+    public FMinigameHolder(JPanel painelMinigame, int tempo) {
         initComponents();
         jPanel3.add(painelMinigame, BorderLayout.CENTER);
+        TimerLabel timer = new TimerLabel();
+        timer.setTimer(jLabelTimer, tempo);
     }
 
     /**
@@ -34,12 +36,13 @@ public class FMinigameHolder extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabelIcon = new javax.swing.JLabel();
         LabelNome = new javax.swing.JLabel();
+        jLabelTimer = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(25, 26, 31));
-        jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(238, 150, 75), 5, true));
 
         jPanel4.setBackground(new java.awt.Color(73, 73, 73));
         jPanel4.setPreferredSize(new java.awt.Dimension(0, 90));
@@ -51,6 +54,13 @@ public class FMinigameHolder extends javax.swing.JFrame {
         LabelNome.setForeground(new java.awt.Color(252, 252, 252));
         LabelNome.setText("Nome do herói");
 
+        jLabelTimer.setForeground(new java.awt.Color(252, 252, 252));
+        jLabelTimer.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelTimer.setText("180");
+
+        jLabel2.setForeground(new java.awt.Color(252, 252, 252));
+        jLabel2.setText("S");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -60,7 +70,11 @@ public class FMinigameHolder extends javax.swing.JFrame {
                 .addComponent(jLabelIcon)
                 .addGap(30, 30, 30)
                 .addComponent(LabelNome)
-                .addContainerGap(710, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 590, Short.MAX_VALUE)
+                .addComponent(jLabelTimer, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jLabel2)
+                .addGap(85, 85, 85))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -71,7 +85,10 @@ public class FMinigameHolder extends javax.swing.JFrame {
                         .addComponent(jLabelIcon))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(30, 30, 30)
-                        .addComponent(LabelNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(LabelNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabelTimer, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
                         .addGap(30, 30, 30)))
                 .addContainerGap())
         );
@@ -137,7 +154,9 @@ public class FMinigameHolder extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LabelNome;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelIcon;
+    private javax.swing.JLabel jLabelTimer;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

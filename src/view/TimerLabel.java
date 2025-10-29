@@ -36,5 +36,6 @@ public class TimerLabel {
                 }
             }
         });
+        timer.start();
     }
 }

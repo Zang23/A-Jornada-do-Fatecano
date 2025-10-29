@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import view.TelaOrdenaNumeros;
 import view.TelaCacaPalavra;
@@ -32,14 +33,14 @@ public class SelectGameController {
         });
     }
 
-    public void AddSelect(JButton SelectOption) {
+    public void AddSelect(JButton SelectOption, JComboBox CompDif) {
         SelectOption.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 switch (selected) {
                     case 0: {
                         TelaCacaPalavra jogo = new TelaCacaPalavra();
-                        FMinigameHolder tela = new FMinigameHolder(jogo);
+                        FMinigameHolder tela = new FMinigameHolder(jogo, 180);
                         tela.setVisible(true);
                         break;
                     }
@@ -49,7 +50,7 @@ public class SelectGameController {
                     }
                     case 2: {
                         TelaOrdenaNumeros jogo = new TelaOrdenaNumeros();
-                        FMinigameHolder tela = new FMinigameHolder(jogo);
+                        FMinigameHolder tela = new FMinigameHolder(jogo, 180);
                         tela.setVisible(true);
                         break;
                     }
