@@ -26,7 +26,7 @@ public class FSelectJogos extends PropTela {
         for(int i = 0; i < 5; i++){
             SelectController.AddOption(JogosSelect[i], jLabelTitle, i);
         }
-        SelectController.AddSelect(jButtonGo, this, jSelectDif);
+        SelectController.AddSelect(jButtonGo, jSelectDif, this);
         PlayerIconController IconController = new PlayerIconController();
         IconController.setIcon(jLabelIcon);
     }
@@ -131,9 +131,7 @@ public class FSelectJogos extends PropTela {
         jLabelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/assets/sprites/characters/Fatecando-F_HAPPY-icon.png"))); // NOI18N
 
         LabelNome.setForeground(new java.awt.Color(252, 252, 252));
-        LabelNome.setText("Nome do herói");
 
-        jSelectDif.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Facil", "Médio", "Dificil" }));
         jSelectDif.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jSelectDifActionPerformed(evt);
