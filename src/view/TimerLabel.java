@@ -4,13 +4,9 @@
  */
 package view;
 
-import javax.swing.JFrame;
+import view.IGamePanel;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +16,7 @@ import java.awt.event.ActionListener;
  */
 public class TimerLabel {
     Timer timer;
-    public void setTimer(JLabel labelTempo, int tempo){
+    public void setTimer(JLabel labelTempo, IGamePanel painelJogo, int tempo){
         timer = new Timer(1000, new ActionListener() {
             int tempoRestante = tempo;
             @Override
@@ -33,8 +29,11 @@ public class TimerLabel {
                     timer.stop();
                     labelTempo.setText("FALHOU");
                     labelTempo.setForeground(Color.RED);
+                    painelJogo.onTimeUp();
                 }
             }
         });
+        timer.start();
     }
+    
 }

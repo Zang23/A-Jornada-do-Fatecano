@@ -14,4 +14,5 @@ public interface TorreDeHanoiListener {
     void atualizarTela();
     void mostrarMensagem(String msg);
     void jogoEncerrado(EstadoJogo estado);
+    void atualizarTempo();
 }

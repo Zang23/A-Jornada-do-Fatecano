@@ -32,21 +32,20 @@ public class OrganizePilha extends Jogo {
         iniciar();
     }
 
-    private void configurarDificuldade() { //Observação: Para pode adicionar mais itens do que 8, mudar o vetor de cores dentro do 
-    	//iniciar(), só adicionar mais cores :)
+    private void configurarDificuldade() {
         switch (dificuldade) {
             case MEDIO:
-                this.numeroItens = 6;
-                this.tempoMaximo = 90;
+                this.numeroItens = 5;
+                // this.tempoMaximo = 90; // REMOVIDO
                 break;
             case DIFICIL:
-                this.numeroItens = 8;
-                this.tempoMaximo = 60;
+                this.numeroItens = 7;
+                // this.tempoMaximo = 60; // REMOVIDO
                 break;
             case FACIL:
             default:
-                this.numeroItens = 4;
-                this.tempoMaximo = 120;
+                this.numeroItens = 3;
+                // this.tempoMaximo = 120; // REMOVIDO
                 break;
         }
     }
@@ -65,7 +64,7 @@ public class OrganizePilha extends Jogo {
         //mudar aqui para permitir maior quantidade de opções :)
         List<Color> coresDisponiveis = Arrays.asList( 
             Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, 
-            Color.ORANGE, Color.CYAN, Color.MAGENTA, Color.PINK
+            Color.ORANGE, Color.CYAN, Color.MAGENTA
         );
         List<Color> coresSelecionadas = new LinkedList<>(coresDisponiveis.subList(0, numeroItens));
         
@@ -121,23 +120,16 @@ public class OrganizePilha extends Jogo {
     //Aqui ele calcula os pontos do jogador com base na dificuldade, esse multiplicador multiplica pelo tempo do timer estante posteriormente.
     @Override
     public int calcularPontuacao(int pontosMarcados, int tempoSobrando) {
+        // A pontuação baseada em tempo foi alterada para uma pontuação fixa por vitória,
+        // já que o tempo agora é um desafio, não um bônus.
         double multiplicador = 1.0;
         switch (dificuldade) {
-            case MEDIO:
-                multiplicador = 1.5;
-                break;
-            case DIFICIL:
-                multiplicador = 2.0;
-                break;
-            case FACIL:
-            default:
-                break;
+            case MEDIO: multiplicador = 1.5; break;
+            case DIFICIL: multiplicador = 2.0; break;
         }
-        this.pontuacao = (int) ((10 * tempoSobrando) * multiplicador); //Aqui é onde ele multiplica, ele multiplica por 10 também por ser mais legal,
-        //... porém se precisarem que mude só avisar, é que a gente acabou não definindo como funcionaria a pontuação durante a reunião no sábado
+        this.pontuacao = (int) (1000 * multiplicador); // Pontuação fixa
         return this.pontuacao;
     }
-
     
     //Aqui o Enum que o gabriel falou, para poder mostrar qual a estrutura que é esse minigame
     @Override
@@ -158,8 +150,9 @@ public class OrganizePilha extends Jogo {
         return inventario;
     }
     
-    public int getTempoMaximo() {
-    	return tempoMaximo;
+    
+    public int getNumeroItens() {
+        return this.numeroItens;
     }
     
     

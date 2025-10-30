@@ -24,25 +24,25 @@ public class TorreDeHanoi extends Jogo {
               "Mova todos os discos da primeira torre para a última.",
               "Use os números 1, 2 e 3 para mover os discos. Regras: só pode mover um disco por vez, e nunca coloque um disco maior sobre um menor.");
 
-        configurarDificuldade(); //Define o tempo máximo conforme a dificuldade
+        //configurarDificuldade(); //Define o tempo máximo conforme a dificuldade
         iniciar(); //Inicia o jogo
     }
 
     //Configura o tempo limite de acordo com a dificuldade escolhida
-    private void configurarDificuldade() {
-        switch (dificuldade) {
-            case MEDIO:
-                this.limiteTempo = 75; //1 minuto e 15 segundos
-                break;
-            case DIFICIL:
-                this.limiteTempo = 45; //45 segundos
-                break;
-            case FACIL:
-            default:
-                this.limiteTempo = 120; //2 minutos
-                break;
-        }
-    }
+   // private void configurarDificuldade() {
+    //    switch (dificuldade) {
+     //       case MEDIO:
+     //           this.limiteTempo = 75; //1 minuto e 15 segundos
+     ////           break;
+     //       case DIFICIL:
+     //           this.limiteTempo = 45; //45 segundos
+      //          break;
+     //       case FACIL:
+     //       default:
+     ////           this.limiteTempo = 120; //2 minutos
+     //           break;
+     //   }
+    //}
 
     @Override
     public void iniciar() {
@@ -79,7 +79,9 @@ public class TorreDeHanoi extends Jogo {
 
     @Override
     public int calcularPontuacao(int pontosMarcados, int tempoSobrando) {
-        //Número mínimo de movimentos para 4 discos = 15 (2^4 - 1)
+        // A variável tempoSobrando não é mais usada, mas mantemos a assinatura do método
+        
+        // Número mínimo de movimentos para 4 discos = 15 (2^4 - 1)
         int movimentosIdeais = (int) Math.pow(2, totalDiscos) - 1;
 
         int fatorPenalidadePorMovimento; 
@@ -97,24 +99,24 @@ public class TorreDeHanoi extends Jogo {
         }
         
         int penalidade = Math.max(0, (qtdMovimentos - movimentosIdeais)) * fatorPenalidadePorMovimento;
-        //Ou seja, se a pessoa fizer mais movimentos do que o necessário, ela perde pontos HUAHUAHAUHAH
 
         double multiplicador = 1.0;
         switch (dificuldade) {
             case MEDIO:
-            	multiplicador = 1.5;
-            	break;
+                multiplicador = 1.5;
+                break;
             case DIFICIL:
-            	multiplicador = 2.0;
-            	break;
+                multiplicador = 2.0;
+                break;
             case FACIL:
             default:   
-            	multiplicador = 1.0;
+                multiplicador = 1.0;
                 break;
         }
 
-        this.pontuacao = (int) (((5000 - penalidade) + (tempoSobrando * 10)) * multiplicador);
-        return Math.max(0, this.pontuacao); //Nunca vai deixar a pontuação ficar negativa, mas seria engraçado
+        // Pontuação baseada apenas nos movimentos e dificuldade
+        this.pontuacao = (int) ((5000 - penalidade) * multiplicador);
+        return Math.max(0, this.pontuacao);
     }
 
     @Override
@@ -129,8 +131,13 @@ public class TorreDeHanoi extends Jogo {
     public int getMovimentos() { return qtdMovimentos; }
 
     //Retorna o tempo máximo configurado
-    public int getTempoMaximo() {
-        return limiteTempo;
+    //public int getTempoMaximo() {
+     //   return limiteTempo;
+    //}
+    
+    public void aumentarMovimentos() {
+        this.qtdMovimentos++;
     }
+    
     //leo Passou aqui
 }

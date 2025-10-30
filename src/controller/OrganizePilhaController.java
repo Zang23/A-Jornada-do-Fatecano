@@ -7,8 +7,8 @@ import model.minigames.OrganizePilha;
 public class OrganizePilhaController {
 
     private OrganizePilha model; //Onde ficam as funções e atributos manipulados pela nossa querida controller
-    private Timer gameTimer; //Ele é um objeto que controla o timer, e ele DISPARA um evento a cada segundo
-    private int tempoRestante; //própria cópia do tempo restante para ser usado, ele pega inicialmente do model com base na dificuldade e salva apenas o valor máximo, 
+    //private Timer gameTimer; //Ele é um objeto que controla o timer, e ele DISPARA um evento a cada segundo
+    //private int tempoRestante; //própria cópia do tempo restante para ser usado, ele pega inicialmente do model com base na dificuldade e salva apenas o valor máximo, 
     //a alteração é feita aqui dentro desse valor interno
     
     private GameState gameState;
@@ -23,27 +23,34 @@ public class OrganizePilhaController {
     }
     
     private void iniciarLogicaDoJogo() {
-        this.tempoRestante = model.getTempoMaximo(); //Pega o tempo com base na dificuldade, que está lá na model, e deve ser defininida na VIEW.
+        //this.tempoRestante = model.getTempoMaximo(); //Pega o tempo com base na dificuldade, que está lá na model, e deve ser defininida na VIEW.
         this.gameState = GameState.JOGANDO; //Muda o estado de jogo, simplesmente
-        iniciarTimer(); //Inicia o timer
+        //iniciarTimer(); //Inicia o timer
     }
 
-    private void iniciarTimer() {
+    //private void iniciarTimer() {
     	// É criada uma "ação" a ser executada. O e -> { ... } é uma forma moderna em Java (lambda) de escrever o que o timer deve fazer a cada "tick" - ChatGPT
     	//Resumindo, ele faz um loop a cada tick de tempo, e a cada tick ele dispara a ação, foi isso o que eu entendi pelo menos.
-        ActionListener acaoDoTimer = e -> {
-            tempoRestante--; //Diminui o tempo
-            if (tempoRestante <= 0) { //Se o tempo acabar, para o jogo
-                gameTimer.stop();
-                this.gameState = GameState.DERROTA; //Atualiza o estado para derrota, a view deve mostrar a imagem de derrota observando o gamestate.
-            }
-        };
-        gameTimer = new Timer(1000, acaoDoTimer); //Aqui ele cria o timer, e a cada 1000 ms (milisegundos, igual a 1 segundo, ele dispara o acaoDoTimer)
-        gameTimer.start(); //Inicia o timer
-    }
+    //    ActionListener acaoDoTimer = e -> {
+    //        tempoRestante--; //Diminui o tempo
+    //        if (tempoRestante <= 0) { //Se o tempo acabar, para o jogo
+    //            gameTimer.stop();
+    //            this.gameState = GameState.DERROTA; //Atualiza o estado para derrota, a view deve mostrar a imagem de derrota observando o gamestate.
+    //        }
+    //    };
+    //    gameTimer = new Timer(1000, acaoDoTimer); //Aqui ele cria o timer, e a cada 1000 ms (milisegundos, igual a 1 segundo, ele dispara o acaoDoTimer)
+    //    gameTimer.start(); //Inicia o timer
+    //}
+    
+    
 
     // --- MÉTODOS PÚBLICOS PARA A VIEW USAR ---
 
+    
+    public void tempoEsgotado() {
+        this.gameState = GameState.DERROTA;
+        // A pontuação não é registrada em caso de derrota por tempo.
+    }
     
     //Move da pilha do jogador para o inventário se a pilha do jogador não estiver vazia
     public void executarAcaoPilhaParaInventario() {
@@ -67,9 +74,9 @@ public class OrganizePilhaController {
     //Recomeça o jogo
     public void reiniciarJogo() { //Opcional
     	
-        if (gameTimer.isRunning()) { //verifica se o timer está correndo
-            gameTimer.stop(); //para o timer
-        }
+        //if (gameTimer.isRunning()) { //verifica se o timer está correndo
+        //    gameTimer.stop(); //para o timer
+        //}
         this.model = new OrganizePilha(model.getDificuldade());
         iniciarLogicaDoJogo();
     }
@@ -80,9 +87,9 @@ public class OrganizePilhaController {
         return model;
     }
     
-    public int getTempoRestante() {
-        return tempoRestante;
-    }
+   // public int getTempoRestante() {
+    //    return tempoRestante;
+   // }
 
     public GameState getGameState() {
         return gameState;
@@ -92,9 +99,24 @@ public class OrganizePilhaController {
 
     private void verificarCondicaoDeVitoria() {
         if (model.verificarVitoria()) { //se for true
-            gameTimer.stop();
-            model.calcularPontuacao(100, tempoRestante);
+            //gameTimer.stop();
+            model.calcularPontuacao(100, 0);
             this.gameState = GameState.VITORIA;
+
+            // --- INÍCIO DA INTEGRAÇÃO DO SCOREBOARD ---
+            
+            // Pega o nome do jogador através do NameController
+            NameController nameController = new NameController();
+            String nomeJogador = nameController.getName();
+
+            // Pega o nome do jogo e a pontuação do model
+            String nomeJogo = model.getNome();
+            int pontuacaoFinal = model.getPontuacao();
+
+            // Chama o método estático para registrar a pontuação
+            ScoreboardController.registrarPontuacao(nomeJogo, nomeJogador, pontuacaoFinal);
+
+            // --- FIM DA INTEGRAÇÃO ---
         }
     }
 }
