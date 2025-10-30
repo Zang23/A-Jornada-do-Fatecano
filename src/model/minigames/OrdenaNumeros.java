@@ -1,6 +1,7 @@
 package model.minigames;
 
 import model.EstruturaDados;
+
 import model.Jogo;
 import model.Dificuldade;
 

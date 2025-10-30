@@ -2,6 +2,7 @@ package model.minigames;
 
 import model.EstruturaDados;
 
+
 import model.Jogo;
 import model.Dificuldade;
 
@@ -17,13 +18,16 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import controller.GameTimer;
+
 public class CacaPalavra extends Jogo {
 
 	private List<String> letras;
 	private int posicaoAtual;
 	private String letraSegurada;
 	private String palavraCorreta;
-
+	private GameTimer timer;
+	
 	public CacaPalavra(Dificuldade dificuldade) {
 
 		super("CacaPalavra", dificuldade, EstruturaDados.LISTA, "Jogo simples de Caca Palavras",
@@ -49,6 +53,9 @@ public class CacaPalavra extends Jogo {
 
 		posicaoAtual = 0;
 		letraSegurada = null;
+		
+		timer = new GameTimer();
+	    timer.iniciar();
 
 	}
 	
@@ -59,12 +66,48 @@ public class CacaPalavra extends Jogo {
 		}
 
 	}
+	
+	public double getTempoDecorrido() {
+        return timer.getTime();
+    }
+
+    public void resetarTimer() {
+        timer.iniciar();
+    }
 
 	@Override
 	public int calcularPontuacao(int pontosMarcados, int tempoSobrando) {
-		return 0;
+	    int acertos = 0;
 
+	    // Conta letras corretas na posição certa
+	    for (int i = 0; i < letras.size(); i++) {
+	        char letraAtual = letras.get(i).charAt(0);
+	        char letraCorreta = palavraCorreta.charAt(i);
+	        if (letraAtual == letraCorreta) {
+	            acertos += 10;
+	        }
+	    }
+
+	    // Se a palavra estiver completamente correta
+	    if (isRespostaCerta()) {
+	        double tempo = getTempoDecorrido(); // herdado de Jogo
+	        int resultado = (int) (tempo * acertos);
+
+	        // multiplicador por dificuldade
+	        if (dificuldade.equals(Dificuldade.FACIL)) {
+	            resultado *= 1.02;
+	        } else if (dificuldade.equals(Dificuldade.MEDIO)) {
+	            resultado *= 1.05;
+	        } else if (dificuldade.equals(Dificuldade.DIFICIL)) {
+	            resultado *= 1.10;
+	        }
+
+	        return resultado;
+	    }
+
+	    return acertos;
 	}
+
 
 	@Override
 	public EstruturaDados getEstruturaAssociada() {
@@ -148,9 +191,14 @@ public class CacaPalavra extends Jogo {
 		this.letraSegurada = letraSegurada;
 	}
         
-        public boolean isRespostaCerta(){
-            return letras.equals(Arrays.asList(palavraCorreta.toCharArray()));
-        }
+	public boolean isRespostaCerta() {
+	    StringBuilder palavraAtual = new StringBuilder();
+	    for (String letra : letras) {
+	        palavraAtual.append(letra);
+	    }
+	    return palavraAtual.toString().equalsIgnoreCase(palavraCorreta);
+	}
+
         
 	public void moverPonteiro(int direcao) {
 		if (letras.isEmpty())
