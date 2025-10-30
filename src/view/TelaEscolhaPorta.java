@@ -38,6 +38,7 @@ public class TelaEscolhaPorta extends JPanel implements IGamePanel {
     private final Color COR_PAINEL = new Color(68, 71, 90);
     private final Color COR_FONTE = new Color(248, 248, 242);
     private Font fonteJogo;
+    private boolean vitoria;
 
     public TelaEscolhaPorta(Dificuldade dificuldade, Runnable onGameEndCallback) {
         this.onGameEndCallback = onGameEndCallback;
@@ -126,6 +127,7 @@ public class TelaEscolhaPorta extends JPanel implements IGamePanel {
                         
                         if (controller.getGameState() == EscolhaPortaController.GameState.VITORIA) {
                             finalizarJogo(true);
+                            vitoria = true;
                         } else {
                             atualizarTela();
                         }
@@ -151,7 +153,9 @@ public class TelaEscolhaPorta extends JPanel implements IGamePanel {
     @Override
     public void onTimeUp() {
         controller.tempoEsgotado();
+        if (!vitoria) {
         finalizarJogo(false);
+        }
     }
     
     private void finalizarJogo(boolean vitoria) {

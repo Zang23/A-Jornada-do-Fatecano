@@ -32,6 +32,7 @@ public class TelaOrganizePilha extends JPanel implements IGamePanel {
     private final Color COR_FUNDO = new Color(25, 26, 31);
     private final Color COR_DESTAQUE = new Color(238, 150, 75);
     private Font fonteJogo;
+    private boolean vitoria;
 
     public TelaOrganizePilha(Dificuldade dificuldade, Runnable onGameEndCallback) {
         this.model = new OrganizePilha(dificuldade);

@@ -15,6 +15,7 @@ public class TelaOrdenaNumeros extends JPanel implements IGamePanel {
     private static final long serialVersionUID = 1L;
 
     private JPanel pnNumeros;
+    private boolean vitoria = false;
     private OrdenaNumeros jogo;
     private OrdenaNumerosController controller;
     private Runnable onGameEndCallback;
@@ -22,13 +23,13 @@ public class TelaOrdenaNumeros extends JPanel implements IGamePanel {
 
     public TelaOrdenaNumeros(Dificuldade dificuldade, Runnable onGameEndCallback) {
         this.onGameEndCallback = onGameEndCallback;
-        
+
         setLayout(new BorderLayout());
         setBackground(new Color(25, 26, 31));
 
         jogo = new OrdenaNumeros(dificuldade);
         controller = new OrdenaNumerosController(jogo);
-        
+
         jogo.iniciar();
 
         pnNumeros = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 30));
@@ -63,6 +64,7 @@ public class TelaOrdenaNumeros extends JPanel implements IGamePanel {
                 if (jogo.estaOrdenado()) {
                     controller.processarVitoria();
                     exibirFimDeJogo(true); // Chama o método de finalização com status de vitória
+                    vitoria = true;
                 }
             }
         };
@@ -70,10 +72,10 @@ public class TelaOrdenaNumeros extends JPanel implements IGamePanel {
         addKeyListener(this.keyListener);
         setFocusable(true);
     }
-    
+
     /**
-     * --- NOVO MÉTODO ---
-     * Centraliza a lógica de exibição do fim de jogo.
+     * --- NOVO MÉTODO --- Centraliza a lógica de exibição do fim de jogo.
+     *
      * @param vitoria True se o jogador ganhou, false se perdeu por tempo.
      */
     private void exibirFimDeJogo(boolean vitoria) {
@@ -85,14 +87,14 @@ public class TelaOrdenaNumeros extends JPanel implements IGamePanel {
         } else {
             mensagem = "O tempo acabou!\nVocê não conseguiu ordenar a tempo.";
         }
-        
+
         JOptionPane.showMessageDialog(
-            this, 
-            mensagem, 
-            "Fim de Jogo", 
-            JOptionPane.INFORMATION_MESSAGE
+                this,
+                mensagem,
+                "Fim de Jogo",
+                JOptionPane.INFORMATION_MESSAGE
         );
-        
+
         // Fecha a janela e executa o callback de retorno ao menu
         SwingUtilities.invokeLater(() -> {
             Window janelaAtual = SwingUtilities.getWindowAncestor(this);
@@ -116,7 +118,7 @@ public class TelaOrdenaNumeros extends JPanel implements IGamePanel {
             lbl.setOpaque(true);
             lbl.setForeground(Color.WHITE);
             lbl.setBackground(new Color(73, 73, 73));
-            
+
             // Define a cor da borda baseada na posição do ponteiro
             Color corBorda = (i == jogo.getPosicaoAtual()) ? new Color(238, 150, 75) : new Color(120, 120, 120);
             lbl.setBorder(new LineBorder(corBorda, 3));
@@ -127,9 +129,8 @@ public class TelaOrdenaNumeros extends JPanel implements IGamePanel {
         pnNumeros.revalidate();
         pnNumeros.repaint();
     }
-    
-    // --- MÉTODOS DA INTERFACE IGamePanel ---
 
+    // --- MÉTODOS DA INTERFACE IGamePanel ---
     @Override
     public Jogo getModel() {
         return this.jogo;
@@ -138,6 +139,8 @@ public class TelaOrdenaNumeros extends JPanel implements IGamePanel {
     @Override
     public void onTimeUp() {
         controller.tempoEsgotado(); // Notifica o controller que o tempo acabou
-        exibirFimDeJogo(false);    // Chama o método de finalização com status de derrota
+        if (!vitoria) {
+            exibirFimDeJogo(false);    // Chama o método de finalização com status de derrota
+        }
     }
 }
