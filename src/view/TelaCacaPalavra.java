@@ -17,6 +17,7 @@ public class TelaCacaPalavra extends JPanel implements IGamePanel {
     private JPanel pnLetras;
     private JLabel lblMao;
     private JLabel lblPalavraAlvo;
+    private boolean vitoria;
 
     private CacaPalavra jogo;
     private CacaPalavraController controller;
@@ -79,6 +80,7 @@ public class TelaCacaPalavra extends JPanel implements IGamePanel {
                 if (jogo.isRespostaCerta()) {
                     controller.processarVitoria(); // Controller processa a vitória
                     exibirFimDeJogo(true);     // A tela exibe o resultado
+                    vitoria = true;
                 }
             }
         };
@@ -159,6 +161,8 @@ public class TelaCacaPalavra extends JPanel implements IGamePanel {
     @Override
     public void onTimeUp() {
         controller.tempoEsgotado(); // Notifica o controller
+        if(!vitoria){
         exibirFimDeJogo(false);    // Exibe a tela de derrota
+        }
     }
 }
