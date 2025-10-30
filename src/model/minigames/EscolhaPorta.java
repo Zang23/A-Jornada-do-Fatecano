@@ -5,257 +5,161 @@ import model.Jogo;
 import model.Dificuldade;
 import model.No;
 
-import java.awt.Color;
-import java.awt.event.MouseEvent;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
-import javax.swing.*;
 
 public class EscolhaPorta extends Jogo {
 
-	private No inicio;
-    private No fim;
-    private int tamanhoCores;
-    private int tamanhoPorta;
-    private int[] portas;
-	private static Timer tempo;
-    private static int tempoRestante;
-	
-	public EscolhaPorta(Dificuldade dificuldade) {
-		super("EscolhaPorta", dificuldade, EstruturaDados.LISTA,
-		"Combine as cores da fila com a porta correta",
-		"A fila sai conforme o jogador faz acertos... Ou erros");
-	}
+    // Agora, com o No genérico, esta declaração está correta
+    private No<String> inicioFilaCores;
+    private No<String> fimFilaCores;
+    private int tamanhoFilaInicial;
+    private int coresRestantes;
 
-	@Override
-	public void iniciar() {
-	}
+    private int numeroDePortas;
 
-	@Override
-	public int calcularPontuacao(int pontosMarcados, int tempoSobrando) {
-		return 0;
-	}
+    private List<String> coresDasPortas;
 
-	@Override
-	public EstruturaDados getEstruturaAssociada() {
-		return this.estrutura;
-	}
+    private final List<String> ASSETS_DISPONIVEIS = Arrays.asList(
+        "black", "blue", "crimson", "green", "purple", "red", "yellow"
+    );
 
-	// Fim Parte Gabs
+    public EscolhaPorta(Dificuldade dificuldade) {
+        super("Escolha a Porta", dificuldade, EstruturaDados.LISTA,
+              "Combine a chave da fila com a porta correta.",
+              "A fila de chaves avança a cada acerto ou erro. As portas mudam de cor a cada jogada!");
+        
+        configurarDificuldade();
+        iniciar();
+    }
 
-	public String getNome() {
-		return nome;
-	}
+    private void configurarDificuldade() {
+        switch (dificuldade) {
+            case MEDIO:
+                this.numeroDePortas = 4;
+                this.tamanhoFilaInicial = 30;
+                break;
+            case DIFICIL:
+                this.numeroDePortas = 5;
+                this.tamanhoFilaInicial = 40;
+                break;
+            case FACIL:
+            default:
+                this.numeroDePortas = 3;
+                this.tamanhoFilaInicial = 20;
+                break;
+        }
+    }
 
-	public Dificuldade getDificuldade() {
-		return dificuldade;
-	}
+    @Override
+    public void iniciar() {
+        inicioFilaCores = null;
+        fimFilaCores = null;
+        this.coresRestantes = 0;
+        this.pontuacao = 0;
+        
+        for (int i = 0; i < tamanhoFilaInicial; i++) {
+            inserirCorNaFila(gerarCorAleatoria());
+        }
+        
+        gerarCoresDasPortas();
+    }
 
-	public EstruturaDados getEstrutura() {
-		return estrutura;
-	}
+    // --- LÓGICA DO JOGO ---
 
-	public int getPontuacao() {
-		return pontuacao;
-	}
-
-    public void inserir(int cor) { // Insere cor á lista
-    	
-        No novo = new No(cor);
-        if (inicio == null) {
-            inicio = novo;
-            fim = novo;
+    private void inserirCorNaFila(String cor) {
+        No<String> novoNo = new No<>(cor); // Cria um No que armazena uma String
+        if (inicioFilaCores == null) {
+            inicioFilaCores = novoNo;
+            fimFilaCores = novoNo;
         } else {
-            fim.setProximo(novo);
-            fim = novo;
+            fimFilaCores.setProximo(novoNo);
+            fimFilaCores = novoNo;
         }
-        tamanhoCores++;
-        
-    }
-    
-    public No getInicio() { // Pega a primeira cor da fila
-        return inicio;
+        this.coresRestantes++;
     }
 
-    public int gerarCor() { // Gera a cor
-    	
-        Random r = new Random();
-        int cor;
-//      return new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)); // Para caso utilize o import
-        cor = r.nextInt(50); // Os números são as cores
-        return cor;
-        
-    }
-
-    public void imprimir() { // Era teste pra fila
-        No atual = inicio;
-        while (atual != null) {
-            int c = atual.getColor();
-            System.out.println(c);
-            atual = atual.getProximo();
+    public void avancarFila() {
+        if (inicioFilaCores != null) {
+            inicioFilaCores = inicioFilaCores.getProximo();
+            this.coresRestantes--;
+            if (inicioFilaCores == null) {
+                fimFilaCores = null;
+            }
         }
     }
 
-    public int getTamanho() { // Tamanho da fila
-        return tamanhoCores;
-    }
-    
-    public void cliqueCerto() { // Pontuação padrão
-    	
-    	switch (dificuldade) {
-        
-    	case FACIL: pontuacao += 10;
-        
-    	case MEDIO: pontuacao += 15;
-        
-    	case DIFICIL: pontuacao += 20;
-    	
-     }
-    	proximaFila();
-    	gerarPortasNovas();
-    }
-    
-    public void cliqueErrado() { // Caso jogador erre a porta
-		switch (dificuldade) {
-			case FACIL: pontuacao -= 5;
-						proximaFila();
-						gerarPortasNovas();
-			break;
-		
-			case MEDIO: pontuacao -= 10;
-						proximaFila();
-						gerarPortasNovas();
-			break;
-		
-			case DIFICIL: pontuacao -= 15;
-						  proximaFila();
-						  gerarPortasNovas();
-			break;
-		}
-	}
-    
-    public void modificadorDificuldade() { // Este método cria modificadores de fase baseados na dificuldade
-		
-		switch (dificuldade) {
-		
-			case FACIL: tamanhoPorta = 3;
-						tamanhoCores = 20;
-						tempoRestante = 120;
-			break;
-			
-			case MEDIO: tamanhoPorta = 4;
-						tamanhoCores = 30;
-						tempoRestante = 90;
-			break;
-			
-			case DIFICIL: tamanhoPorta = 5;
-						  tamanhoCores = 40;
-						  tempoRestante = 60;
-			break;
-			
-		}
-	
-	}
-    
-    public void gerarPortasNovas() { // Este método gera novas portas em caso de acerto
-		
-		Random r = new Random();
-		int cor;
-		portas = new int[tamanhoPorta];
-		
-		for(int i = 0; i < tamanhoPorta; i ++) {
-			
-			cor = r.nextInt(50);
-			portas[i] = cor;
-			
-		}
-			
-		if (inicio != null)
-			
-	        portas[r.nextInt(tamanhoPorta)] = inicio.getColor();
-		
-	}
-    
-    public boolean verificarVazio() { // Verifica se a lista está vazia
-		if (inicio == fim) {
-			pontuacaoFinal();
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean verificarCheio() { // Verifica se a lista está cheia
-		if (fim != null) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-	
-	public void proximaFila() { // Próxima cor da lista
-	    if (inicio != null) {
-	        inicio = inicio.getProximo(); 
-	        tamanhoCores--;
-	    }
-	}
-	
-	public void pontuacaoFinal() { // Score total
-		
-		switch (dificuldade) {
-		
-			case FACIL: pontuacao *= 1;
-						tempoRestante *= 50;
-						pontuacao += tempoRestante;
-			break;
-		
-			case MEDIO: pontuacao *= 1.25;
-						tempoRestante *= 100;
-						pontuacao += tempoRestante;
-			break;
-		
-			case DIFICIL: pontuacao *= 1.5;
-						  tempoRestante *= 150;
-						  pontuacao += tempoRestante;
-			break;
-			
-		}
-		
-	}
-	
-	public void clique(int portaClicada, MouseEvent e) { // Clique de porta padrão
-		
-		int corClicada = portas[portaClicada];
-		
-		if (inicio != null && corClicada == (inicio.getColor())) {
-			cliqueCerto();
-		} else {
-			cliqueErrado();
-		}
-	}
+    public void gerarCoresDasPortas() {
+        coresDasPortas = new ArrayList<>();
+        Random random = new Random();
 
-	public void tempo(ActionEvent e) { // Tempo de jogo
-		
-		tempo = new Timer(1000, new ActionListener() {
-			
-		@Override
-	    public void actionPerformed(ActionEvent e) {
-	    
-			tempoRestante--;
-			
-			if (tempoRestante <= 0) {
-				
-				tempo.stop();
-				System.out.println("Game Over");
-				
-			}
-			
-		}
-		
-		});
-		
-		tempo.start();
-			
-	}
-	
+        for (int i = 0; i < this.numeroDePortas; i++) {
+            coresDasPortas.add(gerarCorAleatoria());
+        }
+
+        if (!isFilaVazia()) {
+            int portaCorretaIndex = random.nextInt(this.numeroDePortas);
+            coresDasPortas.set(portaCorretaIndex, getCorAtualDaFila());
+        }
+    }
+    
+    public boolean verificarClique(int indicePortaClicada) {
+        if (isFilaVazia()) return false;
+
+        String corPortaClicada = coresDasPortas.get(indicePortaClicada);
+        if (corPortaClicada.equals(getCorAtualDaFila())) {
+            int pontosGanhos = (dificuldade == Dificuldade.DIFICIL) ? 20 : (dificuldade == Dificuldade.MEDIO ? 15 : 10);
+            this.pontuacao += pontosGanhos;
+            return true;
+        } else {
+            int pontosPerdidos = (dificuldade == Dificuldade.DIFICIL) ? 15 : (dificuldade == Dificuldade.MEDIO ? 10 : 5);
+            this.pontuacao = Math.max(0, this.pontuacao - pontosPerdidos);
+            return false;
+        }
+    }
+
+    public boolean isFilaVazia() {
+        return inicioFilaCores == null;
+    }
+    
+    private String gerarCorAleatoria() {
+        Random random = new Random();
+        return ASSETS_DISPONIVEIS.get(random.nextInt(ASSETS_DISPONIVEIS.size()));
+    }
+
+    @Override
+    public int calcularPontuacao(int pontosMarcados, int tempoSobrando) {
+        // A pontuação já é calculada em verificarClique.
+        // O bônus de tempo foi removido.
+        return this.pontuacao;
+    }
+
+    // --- GETTERS PARA VIEW E CONTROLLER ---
+
+    @Override
+    public EstruturaDados getEstruturaAssociada() {
+        return this.estrutura;
+    }
+
+    public String getCorAtualDaFila() {
+        return isFilaVazia() ? null : inicioFilaCores.getData();
+    }
+
+    public No<String> getInicioFilaCores() {
+        return inicioFilaCores;
+    }
+
+    public List<String> getCoresDasPortas() {
+        return coresDasPortas;
+    }
+    
+    public int getNumeroDePortas() {
+        return numeroDePortas;
+    }
+    
+    public int getCoresRestantes() {
+        return coresRestantes;
+    }
 }

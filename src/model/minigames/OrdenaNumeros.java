@@ -1,7 +1,6 @@
 package model.minigames;
 
 import model.EstruturaDados;
-
 import model.Jogo;
 import model.Dificuldade;
 
@@ -100,30 +99,37 @@ public class OrdenaNumeros extends Jogo {
 
     @Override
     public int calcularPontuacao(int pontosMarcados, int tempoSobrando) {
-        // Exemplo: cada número na posição correta vale 10 pontos
-        int acertos = 0;
-        for (int i = 0; i < numeros.size(); i++) {
-            if (numeros.get(i).equals(numerosCorretos.get(i))) {
-                acertos += 10;
-            }
+        // Se o jogo não estiver ordenado, a pontuação é 0.
+        if (!estaOrdenado()) {
+            this.pontuacao = 0;
+            return 0;
         }
-        
-        if(estaOrdenado()) {
-        	double tempo = getTempoDecorrido();
-        	
-        	int resultado = (int ) (tempo * acertos);
-        	
-        	if(dificuldade.equals(Dificuldade.FACIL)) {
-        		resultado *= 1.02;
-        	}else if(dificuldade.equals(Dificuldade.MEDIO)) {
-        		resultado *= 1.05;
-        	}else if(dificuldade.equals(Dificuldade.DIFICIL)) {
-        		resultado *= 1.1;
-        	}
-        	return resultado;
+
+        // --- FIX 1: O tempo não estava sendo medido corretamente ---
+        // A pontuação base será inversamente proporcional ao tempo.
+        // Menos tempo = mais pontos. Usamos 10000 como um valor base.
+        double tempo = getTempoDecorrido();
+        int pontuacaoBase = Math.max(0, 10000 - ((int) tempo * 100)); // Penaliza 100 pontos por segundo
+
+        // Adiciona um multiplicador de dificuldade
+        double multiplicador = 1.0;
+        switch (dificuldade) {
+            case MEDIO:
+                multiplicador = 1.5;
+                break;
+            case DIFICIL:
+                multiplicador = 2.0;
+                break;
+            case FACIL:
+            default:
+                multiplicador = 1.0;
+                break;
         }
+
+        // --- FIX 2: A pontuação final deve ser armazenada na variável da classe ---
+        this.pontuacao = (int) (pontuacaoBase * multiplicador);
         
-        return acertos;
+        return this.pontuacao;
     }
 
     @Override

@@ -2,7 +2,6 @@ package model.minigames;
 
 import model.EstruturaDados;
 
-
 import model.Jogo;
 import model.Dificuldade;
 
@@ -18,16 +17,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import controller.GameTimer;
-
 public class CacaPalavra extends Jogo {
 
 	private List<String> letras;
 	private int posicaoAtual;
 	private String letraSegurada;
 	private String palavraCorreta;
-	private GameTimer timer;
-	
+
 	public CacaPalavra(Dificuldade dificuldade) {
 
 		super("CacaPalavra", dificuldade, EstruturaDados.LISTA, "Jogo simples de Caca Palavras",
@@ -53,9 +49,6 @@ public class CacaPalavra extends Jogo {
 
 		posicaoAtual = 0;
 		letraSegurada = null;
-		
-		timer = new GameTimer();
-	    timer.iniciar();
 
 	}
 	
@@ -66,48 +59,33 @@ public class CacaPalavra extends Jogo {
 		}
 
 	}
-	
-	public double getTempoDecorrido() {
-        return timer.getTime();
-    }
-
-    public void resetarTimer() {
-        timer.iniciar();
-    }
 
 	@Override
 	public int calcularPontuacao(int pontosMarcados, int tempoSobrando) {
-	    int acertos = 0;
-
-	    // Conta letras corretas na posição certa
-	    for (int i = 0; i < letras.size(); i++) {
-	        char letraAtual = letras.get(i).charAt(0);
-	        char letraCorreta = palavraCorreta.charAt(i);
-	        if (letraAtual == letraCorreta) {
-	            acertos += 10;
-	        }
+	    // Se a palavra não estiver correta, a pontuação é zero.
+	    if (!isRespostaCerta()) {
+	        this.pontuacao = 0;
+	        return 0;
 	    }
-
-	    // Se a palavra estiver completamente correta
-	    if (isRespostaCerta()) {
-	        double tempo = getTempoDecorrido(); // herdado de Jogo
-	        int resultado = (int) (tempo * acertos);
-
-	        // multiplicador por dificuldade
-	        if (dificuldade.equals(Dificuldade.FACIL)) {
-	            resultado *= 1.02;
-	        } else if (dificuldade.equals(Dificuldade.MEDIO)) {
-	            resultado *= 1.05;
-	        } else if (dificuldade.equals(Dificuldade.DIFICIL)) {
-	            resultado *= 1.10;
-	        }
-
-	        return resultado;
+	    
+	    // Pontuação base: 100 pontos por letra na palavra correta.
+	    int pontuacaoBase = getPalavraCorreta().length() * 100;
+	    
+	    // Adiciona um multiplicador de dificuldade
+	    double multiplicador = 1.0;
+	    switch (dificuldade) {
+	        case MEDIO:
+	            multiplicador = 1.5;
+	            break;
+	        case DIFICIL:
+	            multiplicador = 2.0;
+	            break;
 	    }
-
-	    return acertos;
+	    
+	    // Salva a pontuação final na variável da classe e a retorna.
+	    this.pontuacao = (int) (pontuacaoBase * multiplicador);
+	    return this.pontuacao;
 	}
-
 
 	@Override
 	public EstruturaDados getEstruturaAssociada() {
@@ -192,13 +170,18 @@ public class CacaPalavra extends Jogo {
 	}
         
 	public boolean isRespostaCerta() {
-	    StringBuilder palavraAtual = new StringBuilder();
-	    for (String letra : letras) {
-	        palavraAtual.append(letra);
-	    }
-	    return palavraAtual.toString().equalsIgnoreCase(palavraCorreta);
-	}
+	    // A linha antiga e incorreta foi removida.
+	    // return letras.equals(Arrays.asList(palavraCorreta.toCharArray()));
 
+	    // --- CORREÇÃO ---
+	    // 1. Junta todos os elementos da lista 'letras' (que são Strings)
+	    //    em uma única String, sem espaços ou separadores.
+	    String palavraFormadaPeloJogador = String.join("", letras);
+	    
+	    // 2. Compara a String que o jogador formou com a palavra correta.
+	    //    Esta é uma comparação de String para String, que funciona como esperado.
+	    return palavraFormadaPeloJogador.equals(palavraCorreta);
+	}
         
 	public void moverPonteiro(int direcao) {
 		if (letras.isEmpty())

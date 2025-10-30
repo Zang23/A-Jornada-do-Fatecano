@@ -1,138 +1,112 @@
 package controller;
 
 import java.util.Stack;
-import javax.swing.Timer;
-import java.awt.event.ActionListener;
 import model.minigames.TorreDeHanoi;
-import view.FSelectJogos;
-import view.SetActiveBorder;
-import view.TelaTorreHanoi;
 import model.Dificuldade;
 
-//Controller da Torre de Hanoi :D
-//Gerencia o jogo, o tempo e as jogadas do jogador
 public class TorreDeHanoiController {
 
-    private TorreDeHanoi jogo;         //Referência para o model (a lógica do jogo)
-    private Timer cronometro;          //Timer que controla o tempo
-    private int segundosRestantes;     //Tempo que ainda falta
-    
+    private TorreDeHanoi jogo;
     private TorreDeHanoiListener listener;
-
-    private EstadoJogo estadoAtual;    //Estado do jogo (jogando, vitória ou derrota)
+    private EstadoJogo estadoAtual;
     public enum EstadoJogo { JOGANDO, VITORIA, DERROTA }
-    
-    private Dificuldade dificuldade;
+    private Dificuldade dificuldade; // Mantém a dificuldade
+    private Stack<Integer> torreDeOrigem;
+    private Integer discoSegurado;
 
-    private Stack<Integer> torreEscolhida; //Guarda a torre que o jogador selecionou
-
-    public TorreDeHanoiController(int difInt) {
-        switch (difInt) {
-            case 1:
-                dificuldade = Dificuldade.FACIL;
-                break;
-            case 2:
-                dificuldade = Dificuldade.MEDIO;
-                break;
-            case 3:
-                dificuldade = Dificuldade.DIFICIL;
-                break;
-            default:
-                dificuldade = Dificuldade.FACIL;
-        }
-        this.jogo = new TorreDeHanoi(dificuldade);
-        iniciarLogicaDoJogo(); //Começa o jogo
+    /**
+     * --- CONSTRUTOR MODIFICADO ---
+     * Agora recebe diretamente o enum Dificuldade, em vez de um inteiro.
+     * Isso resolve o erro de compilação.
+     */
+    public TorreDeHanoiController(Dificuldade dificuldade) {
+        this.dificuldade = dificuldade; // Armazena a dificuldade recebida
+        this.jogo = new TorreDeHanoi(this.dificuldade); // Cria o modelo com a dificuldade correta
+        iniciarLogicaDoJogo();
     }
     
-    // Adicionei o listener baseado na interface TorreDeHanoiListener @GabrielGit10110
     public void setListener(TorreDeHanoiListener listener) {
         this.listener = listener;
     }
 
-    //Inicia o timer e o estado do jogo
     private void iniciarLogicaDoJogo() {
-        this.segundosRestantes = jogo.getTempoMaximo();
         this.estadoAtual = EstadoJogo.JOGANDO;
-        this.torreEscolhida = null;
-        iniciarTimer();
+        this.torreDeOrigem = null;
+        this.discoSegurado = null;
     }
 
-    //Cria e inicia o cronômetro do jogo
-    private void iniciarTimer() {
-        ActionListener acao = e -> {
-            segundosRestantes--;
-            if (segundosRestantes <= 0) {
-                cronometro.stop();
-                this.estadoAtual = EstadoJogo.DERROTA;
+    /**
+     * Chamado pela View (via FMinigameHolder) quando o timer universal se esgota.
+     * Altera o estado do jogo para DERROTA e notifica a View.
+     */
+    public void tempoEsgotado() {
+        if (this.estadoAtual == EstadoJogo.JOGANDO) {
+            this.estadoAtual = EstadoJogo.DERROTA;
+            if (listener != null) {
+                listener.jogoEncerrado(estadoAtual); // Notifica a tela para exibir a mensagem de fim de jogo
             }
-        };
-        cronometro = new Timer(1000, acao); //Dispara a cada 1 segundo
-        cronometro.start();
+        }
     }
 
-    //MÉTODOS PÚBLICOS USADOS PELA VIEW
-
-    //Processa a escolha e movimento de uma torre
     public void processarJogada(int torre) {
         if (estadoAtual != EstadoJogo.JOGANDO) return;
 
         Stack<Integer> torreAlvo = pegarTorrePorNumero(torre);
         if (torreAlvo == null) return;
 
-        if (torreEscolhida == null) {
+        if (discoSegurado == null) { // Se não estiver segurando um disco, tenta pegar um
             if (!torreAlvo.isEmpty()) {
-                torreEscolhida = torreAlvo;
+                discoSegurado = torreAlvo.pop();
+                torreDeOrigem = torreAlvo;
             }
-        } else {
-            jogo.moverDisco(torreEscolhida, torreAlvo);
-            if (listener != null) listener.atualizarTela();
-            torreEscolhida = null; //Deseleciona depois de mover
-        }
-    }
-
-    //Verifica manualmente se o jogador venceu
-    public void verificarManualmenteVitoria() {
-        if (estadoAtual != EstadoJogo.JOGANDO) return;
-
-        if (jogo.verificarVitoria()) {
-            cronometro.stop();
-            jogo.calcularPontuacao(0, segundosRestantes);
-            this.estadoAtual = EstadoJogo.VITORIA;
-        } else {
-            if (listener != null) listener.mostrarMensagem("Ainda não está certo, continue tentando!");
+        } else { // Se estiver segurando um disco
+            if (torreAlvo == torreDeOrigem) { // Clicou na mesma torre para devolver o disco
+                torreDeOrigem.push(discoSegurado);
+                discoSegurado = null;
+                torreDeOrigem = null;
+            } else { // Tentando mover para uma torre diferente
+                if (torreAlvo.isEmpty() || torreAlvo.peek() > discoSegurado) {
+                    torreAlvo.push(discoSegurado);
+                    jogo.aumentarMovimentos();
+                    discoSegurado = null;
+                    torreDeOrigem = null;
+                    verificarVitoriaAutomaticamente();
+                } else {
+                    if (listener != null) listener.mostrarMensagem("Movimento inválido! Não se pode colocar um disco maior sobre um menor.");
+                }
+            }
         }
         
-        if (listener != null) listener.jogoEncerrado(estadoAtual);
+        if (listener != null) listener.atualizarTela();
     }
+    
+    private void verificarVitoriaAutomaticamente() {
+        if (jogo.verificarVitoria()) {
+            this.estadoAtual = EstadoJogo.VITORIA;
+            jogo.calcularPontuacao(0, 0);
 
-    //Reinicia completamente o jogo
-    public void reiniciarJogo() {
-        if (cronometro.isRunning()) {
-            cronometro.stop();
+            // Registra a pontuação no scoreboard
+            NameController nameController = new NameController();
+            String nomeJogador = nameController.getName();
+            String nomeJogo = jogo.getNome();
+            int pontuacaoFinal = jogo.getPontuacao();
+            ScoreboardController.registrarPontuacao(nomeJogo, nomeJogador, pontuacaoFinal);
+
+            if (listener != null) listener.jogoEncerrado(estadoAtual);
         }
-        this.jogo = new TorreDeHanoi(jogo.getDificuldade());
+    }
+
+    public void reiniciarJogo() {
+        this.jogo = new TorreDeHanoi(dificuldade);
         iniciarLogicaDoJogo();
+        if (listener != null) listener.atualizarTela();
     }
 
-    //GETTERS PARA A VIEW
-
-    public TorreDeHanoi getModel() {
-        return jogo;
-    }
-
-    public int getTempoRestante() {
-        return segundosRestantes;
-    }
-
-    public EstadoJogo getGameState() {
-        return estadoAtual;
-    }
-
-    public Stack<Integer> getTorreSelecionada() {
-        return torreEscolhida;
-    }
-
-    //MÉTODOS INTERNOS
+    // --- GETTERS ---
+    public TorreDeHanoi getModel() { return jogo; }
+    public EstadoJogo getGameState() { return estadoAtual; }
+    public Stack<Integer> getTorreSelecionada() { return torreDeOrigem; }
+    public Integer getDiscoSegurado() { return discoSegurado; }
 
     private Stack<Integer> pegarTorrePorNumero(int numero) {
         switch (numero) {
@@ -142,14 +116,4 @@ public class TorreDeHanoiController {
             default: return null;
         }
     }
-    
-    	public void retornaSelectJogo() {
-
-		NameController nome = new NameController();
-		FSelectJogos telaSelect = new FSelectJogos(nome.getName());
-		telaSelect.SetDefautProperties(telaSelect);
-		telaSelect.setVisible(true);
-		
-	}
-    //Leo passou aqui
 }

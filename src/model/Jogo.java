@@ -1,24 +1,35 @@
 // @GabrielEsteveAqui
 package model;
-
 public abstract class Jogo {
-	protected String nome; // É o nome do jogo uai
-	protected Dificuldade dificuldade; // É um enum
-	protected EstruturaDados estrutura; // qual estrutura usa
-	protected String descricao; // descricao do jogo
-	protected String instrucoes; // instrucoes de como jogar
-	protected int pontuacao; // pontos dos jogos
+protected String nome;
+protected Dificuldade dificuldade;
+protected EstruturaDados estrutura;
+protected String descricao;
+protected String instrucoes;
+protected int pontuacao;
 
-	protected Jogo(String nome, Dificuldade dificuldade,
-			EstruturaDados estrutura, String descricao,
-			String instrucoes) {
-		this.nome = nome;
-		this.dificuldade = dificuldade;
-		this.estrutura = estrutura;
-		this.descricao = descricao;
-		this.instrucoes = instrucoes;
-		this.pontuacao = 0;
+protected Jogo(String nome, Dificuldade dificuldade,
+		EstruturaDados estrutura, String descricao,
+		String instrucoes) {
+	this.nome = nome;
+	this.dificuldade = dificuldade;
+	this.estrutura = estrutura;
+	this.descricao = descricao;
+	this.instrucoes = instrucoes;
+	this.pontuacao = 0;
+}
+
+public final int getTempoMaximo() {
+	switch (this.dificuldade) {
+		case MEDIO:
+			return 45;
+		case DIFICIL:
+			return 20;
+		case FACIL:
+		default:
+			return 90;
 	}
+}
 
 	// Getters
 	public String getNome() {

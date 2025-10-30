@@ -7,26 +7,38 @@ package view;
 import controller.PlayerIconController;
 import controller.NameController;
 import controller.CreateFileProperties;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import model.PropTela;
 
 /**
  *
  * @author Admin
  */
-public class FUsuario extends PropTela{
+public class FUsuario extends PropTela {
 
     /**
      * Creates new form FUsuarioTeste
-     */  
-    public FUsuario() {
+     */
+	public FUsuario() {
         initComponents();
+        setExtendedState(MAXIMIZED_BOTH);
+        
+        // --- ALTERAÇÃO: Garante que a fonte customizada seja aplicada ---
+        // Esta chamada já estava no seu método main, mas é bom garantir aqui também.
+        SetDefautProperties(this); 
+
+        jPanel1.setLayout(new GridBagLayout());
+        jPanel1.add(jPanel2, new GridBagConstraints());
+        jPanel1.setBackground(new java.awt.Color(25, 26, 31));
+
         CreateFileProperties CreateFProp = new CreateFileProperties();
         CreateFProp.create();
-        PlayerIconController IconController = new PlayerIconController();              
+        PlayerIconController IconController = new PlayerIconController();
         IconController.setIcon(jLabelIcon);
         IconController.SetIconButtonProperties(jLabelIcon, jLabelSelect);
         Placeholder.setPlaceholder("Insira o nome do seu herói!", CampoNome);
-        
     }
 
     /**
@@ -48,11 +60,20 @@ public class FUsuario extends PropTela{
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        // --- ALTERAÇÃO: O layout de jPanel1 e do frame será definido programaticamente ---
+        // O código gerado pelo NetBeans para o layout será ignorado.
+        getContentPane().setLayout(new java.awt.BorderLayout());
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+
         jPanel2.setBackground(new java.awt.Color(25, 26, 31));
         jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(238, 150, 75), 5, true));
+        // --- ADIÇÃO: Define um tamanho preferencial para o painel de login para que ele não se estique ---
+        jPanel2.setPreferredSize(new java.awt.Dimension(580, 280));
 
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(252, 252, 252));
-        jLabel1.setText("A jornada do fatecano");
+        jLabel1.setText("A JORNADA DO FATECANO");
 
         jLabelIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/assets/sprites/characters/Fatecando-F_HAPPY-icon.png"))); // NOI18N
@@ -66,6 +87,7 @@ public class FUsuario extends PropTela{
         jLabelSelect.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         CampoNome.setBackground(new java.awt.Color(25, 26, 31));
+        CampoNome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         CampoNome.setForeground(new java.awt.Color(252, 252, 252));
         CampoNome.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(238, 150, 75), 3, true));
         CampoNome.addActionListener(new java.awt.event.ActionListener() {
@@ -75,6 +97,7 @@ public class FUsuario extends PropTela{
         });
 
         jButtonGo.setBackground(new java.awt.Color(73, 73, 73));
+        jButtonGo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonGo.setForeground(new java.awt.Color(238, 150, 75));
         jButtonGo.setText("GO!!!");
         jButtonGo.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(238, 150, 75), 3, true));
@@ -85,88 +108,62 @@ public class FUsuario extends PropTela{
             }
         });
 
+        // --- ALTERAÇÃO: O GroupLayout original foi mantido para o painel interno (jPanel2), ---
+        // --- mas com ajustes para melhor alinhamento e espaçamento. ---
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(67, Short.MAX_VALUE)
+                .addGap(50, 50, 50)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabelIcon, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
                             .addComponent(jLabelSelect, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(23, 23, 23)
-                        .addComponent(CampoNome, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(CampoNome)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonGo, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(68, Short.MAX_VALUE))
+                        .addComponent(jButtonGo, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(50, 50, 50))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(35, Short.MAX_VALUE)
+                .addGap(40, 40, 40)
                 .addComponent(jLabel1)
-                .addGap(50, 50, 50)
+                .addGap(40, 40, 40)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelIcon)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButtonGo, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                            .addComponent(jButtonGo, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                             .addComponent(CampoNome))))
                 .addComponent(jLabelSelect)
-                .addContainerGap(35, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(35, 35, 35))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(35, 35, 35))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(3, 3, 3))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGoActionPerformed
+    private void jButtonGoActionPerformed(java.awt.event.ActionEvent evt) {                                          
         NameController ControleNome = new NameController();
         String NomeHeroi = CampoNome.getText();
         System.out.println(NomeHeroi);
-        if(NomeHeroi.equals("Insira o nome do seu herói!")){
+        if (NomeHeroi.equals("Insira o nome do seu herói!") || NomeHeroi.trim().isEmpty()) {
             NomeHeroi = "Hero";
         }
         ControleNome.setName(NomeHeroi);
-        FSelectJogos TSelect = new FSelectJogos(NomeHeroi);
-        TSelect.SetDefautProperties(TSelect);
-        TSelect.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_jButtonGoActionPerformed
 
+        // --- ALTERAÇÃO: Chama a tela de dificuldade em vez da tela de jogos ---
+        FDificuldade telaDificuldade = new FDificuldade(NomeHeroi);
+        // telaDificuldade.SetDefautProperties(telaDificuldade); // O PropTela já aplica a fonte
+        telaDificuldade.setVisible(true);
+        
+        this.setVisible(false);
+    }
     private void CampoNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CampoNomeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CampoNomeActionPerformed
@@ -178,7 +175,7 @@ public class FUsuario extends PropTela{
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
