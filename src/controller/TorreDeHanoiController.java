@@ -4,6 +4,10 @@ import java.util.Stack;
 import javax.swing.Timer;
 import java.awt.event.ActionListener;
 import model.minigames.TorreDeHanoi;
+import view.FSelectJogos;
+import view.SetActiveBorder;
+import view.TelaTorreHanoi;
+import model.Dificuldade;
 
 //Controller da Torre de Hanoi :D
 //Gerencia o jogo, o tempo e as jogadas do jogador
@@ -17,11 +21,26 @@ public class TorreDeHanoiController {
 
     private EstadoJogo estadoAtual;    //Estado do jogo (jogando, vitória ou derrota)
     public enum EstadoJogo { JOGANDO, VITORIA, DERROTA }
+    
+    private Dificuldade dificuldade;
 
     private Stack<Integer> torreEscolhida; //Guarda a torre que o jogador selecionou
 
-    public TorreDeHanoiController(TorreDeHanoi jogo) {
-        this.jogo = jogo;
+    public TorreDeHanoiController(int difInt) {
+        switch (difInt) {
+            case 1:
+                dificuldade = Dificuldade.FACIL;
+                break;
+            case 2:
+                dificuldade = Dificuldade.MEDIO;
+                break;
+            case 3:
+                dificuldade = Dificuldade.DIFICIL;
+                break;
+            default:
+                dificuldade = Dificuldade.FACIL;
+        }
+        this.jogo = new TorreDeHanoi(dificuldade);
         iniciarLogicaDoJogo(); //Começa o jogo
     }
     
@@ -123,5 +142,14 @@ public class TorreDeHanoiController {
             default: return null;
         }
     }
+    
+    	public void retornaSelectJogo() {
+
+		NameController nome = new NameController();
+		FSelectJogos telaSelect = new FSelectJogos(nome.getName());
+		telaSelect.SetDefautProperties(telaSelect);
+		telaSelect.setVisible(true);
+		
+	}
     //Leo passou aqui
 }

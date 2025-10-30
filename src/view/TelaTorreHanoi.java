@@ -4,6 +4,12 @@
  */
 package view;
 
+import javax.swing.JPanel;
+import java.awt.Component;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import controller.TorreDeHanoiController;
+
 /**
  *
  * @author dti
@@ -13,8 +19,70 @@ public class TelaTorreHanoi extends javax.swing.JPanel {
     /**
      * Creates new form TelaTorreHanoii
      */
-    public TelaTorreHanoi() {
+    public TelaTorreHanoi(int difInt) {
         initComponents();
+        JPanel[] torresPaineis = {torrePanel1, torrePanel2, torrePanel3};
+        TorreDeHanoiController controllerTorre = new TorreDeHanoiController(difInt);
+        
+            SetActiveBorder setBorder = new SetActiveBorder();
+            setBorder.setPanelActive(torresPaineis[0]);
+        this.addKeyListener(new KeyListener() {
+            int opSelected = 0;
+            Component DiscoPego = null;
+                boolean isGeted = false;
+            @Override
+            public void keyTyped(KeyEvent e) {}
+
+            @Override
+            public void keyPressed(KeyEvent e) {                
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_SPACE:
+                        if(isGeted){
+                            torresPaineis[opSelected].add(DiscoPego, 0);
+                            DiscoPego = null;
+                            isGeted = false;
+                        }else{
+                            DiscoPego = torresPaineis[opSelected].getComponent(0);
+                            torresPaineis[opSelected].remove(0);
+                            isGeted = true;
+                        }
+                        torresPaineis[opSelected].revalidate();
+                        torresPaineis[opSelected].repaint();
+                        break;
+                        
+                    case KeyEvent.VK_LEFT:
+                        System.out.println("Seta para a esquerda ←");
+                        setBorder.unsetPanelActive(torresPaineis[opSelected]);
+                        if(opSelected > 0){
+                            opSelected--;
+                        }else{
+                            opSelected = 2;
+                        }
+                        setBorder.setPanelActive(torresPaineis[opSelected]);
+                        break;
+
+                    case KeyEvent.VK_RIGHT:
+                        System.out.println("Seta para a direita →");
+                        setBorder.unsetPanelActive(torresPaineis[opSelected]);
+                        if(opSelected < 2){
+                            opSelected++;
+                        }else{
+                            opSelected = 0;
+                        }
+                        setBorder.setPanelActive(torresPaineis[opSelected]);
+                        break;
+
+                    default:
+                        System.out.println("Outra tecla: " + e.getKeyChar());
+                }
+                
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        });
+        this.setFocusable(true);
+        this.requestFocusInWindow();
     }
 
     /**
@@ -74,7 +142,7 @@ public class TelaTorreHanoi extends javax.swing.JPanel {
         disc4.setAlignmentX(0.5F);
         torrePanel2.add(disc4);
 
-        jPanel2.add(torrePanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-8, 150, 330, -1));
+        jPanel2.add(torrePanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 152, 230, 230));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/assets/sprites/UI/torre.png"))); // NOI18N
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, -1, -1));
@@ -94,7 +162,7 @@ public class TelaTorreHanoi extends javax.swing.JPanel {
         torrePanel3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         torrePanel3.setOpaque(false);
         torrePanel3.setLayout(new javax.swing.BoxLayout(torrePanel3, javax.swing.BoxLayout.Y_AXIS));
-        jPanel5.add(torrePanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 320, 240));
+        jPanel5.add(torrePanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 152, 230, 230));
 
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/assets/sprites/UI/torre.png"))); // NOI18N
         jPanel5.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, -1, -1));
@@ -105,17 +173,8 @@ public class TelaTorreHanoi extends javax.swing.JPanel {
         torrePanel1.setBackground(new java.awt.Color(102, 255, 255));
         torrePanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         torrePanel1.setOpaque(false);
-        torrePanel1.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                torrePanel1AncestorAdded(evt);
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-        });
         torrePanel1.setLayout(new javax.swing.BoxLayout(torrePanel1, javax.swing.BoxLayout.Y_AXIS));
-        jPanel9.add(torrePanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 320, 240));
+        jPanel9.add(torrePanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 152, 230, 230));
 
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/assets/sprites/UI/torre.png"))); // NOI18N
         jPanel9.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, -1, -1));
@@ -131,7 +190,7 @@ public class TelaTorreHanoi extends javax.swing.JPanel {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,10 +220,6 @@ public class TelaTorreHanoi extends javax.swing.JPanel {
                 .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void torrePanel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_torrePanel1AncestorAdded
-        // TODO add your handling code here:
-    }//GEN-LAST:event_torrePanel1AncestorAdded
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

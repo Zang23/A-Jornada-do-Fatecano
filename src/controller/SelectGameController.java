@@ -13,6 +13,7 @@ import view.TelaOrdenaNumeros;
 import view.TelaCacaPalavra;
 import view.FMinigameHolder;
 import view.FSelectJogos;
+import view.TelaTorreHanoi;
 
 /**
  *
@@ -61,6 +62,9 @@ public class SelectGameController {
                         break;
                     }
                     case 4: {
+                        TelaTorreHanoi jogo = new TelaTorreHanoi(0);
+                        FMinigameHolder tela = new FMinigameHolder(jogo);
+                        tela.setVisible(true);
                     	telaSelect.setVisible(false);
                         break;
                     }
